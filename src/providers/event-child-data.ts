@@ -27,6 +27,17 @@ export class EventChildData {
     return this.eventList.child(eventId);
   }*/
 
+  createChildEvent(username: string, key: string): void {
+    console.log('createChildEvent');
+    var childKey = this.eventChildList.push({name: username}).key;
+    this.eventBabapList.orderByChild("name").equalTo(username).on("child_added", function(snapshot) {
+       this.eventBabapList.child(snapshot.key).child('childList').push({
+        childUid: key
+      });
+    });
+    //var refKey = this.eventBabapList.push({name: username}).key;
+  }
+
   createBabapEvent(username: string): firebase.Promise<any> {
     console.log('createBabapEvent');
     /*this.eventBabap = this.eventBabapList.push({name: username}).then( item => {

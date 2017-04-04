@@ -2,6 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, ViewController ,NavParams} from 'ionic-angular';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import { EventChildData } from '../../providers/event-child-data';
+import { ProfileData } from '../../providers/profile-data';
+import { AuthData } from '../../providers/auth-data';
+import firebase from 'firebase';
 
 import { Camera } from 'ionic-native';
 
@@ -17,9 +21,10 @@ import { Camera } from 'ionic-native';
 })
 export class ItemCreatePage {
   @ViewChild('fileInput') fileInput;
+  public userProfile: any;
 
   isReadyToSave: boolean;
-
+  public userList: firebase.database.Reference;
   item: any;
   username: any;
   form: FormGroup;
@@ -31,7 +36,8 @@ export class ItemCreatePage {
       username: 'babap'
     };
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public navParams: NavParams, formBuilder: FormBuilder, public af: AngularFire) {
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public navParams: NavParams, public eventChildData: EventChildData,
+    public profileData: ProfileData, public authData: AuthData, formBuilder: FormBuilder, public af: AngularFire) {
     this.form = formBuilder.group({
       profilePic: [''],
       name: ['', Validators.required],
@@ -39,7 +45,18 @@ export class ItemCreatePage {
       birthday: ['', Validators.required]
     });
 
-    this.username=this.navParams.get('username');
+    this.profileData.getUserProfile().on('value', (data) => {
+      this.userProfile = data.val();
+      console.log('PROFILE '+JSON.stringify(this.userProfile));
+      this.userList = firebase.database().ref(`users`);
+      this.userList.orderByChild("email").equalTo(this.userProfile.email).on("child_added", function(data) {
+        this.username=data.val();
+      });
+      //this.username=this.navParams.get('username');
+      console.log('username '+this.username);
+    });
+
+    //this.username=this.navParams.get('username');
 
     // Watch the form for changes, and
     this.form.valueChanges.subscribe((v) => {
@@ -104,7 +121,9 @@ export class ItemCreatePage {
       return; 
     }else{
       console.log(JSON.stringify(this.item));
-      this.currentChildren.push(this.item).then( item => {
+      var refKey=this.currentChildren.push(this.item).key;
+      this.eventChildData.createChildEvent(this.username, refKey);
+      /*this.currentChildren.push(this.item).then( item => {
         if (item) {
           //this.navCtrl.push(MainPage);
           console.log('create success');
@@ -112,7 +131,7 @@ export class ItemCreatePage {
         }
       },error => {
         console.log(error);
-      }); 
+      }); */
     }
     this.viewCtrl.dismiss(this.form.value);
   }

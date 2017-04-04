@@ -45,7 +45,7 @@ export class LoginPage {
       this.loginErrorString = value;
     })
   }
-
+  
 
   doLogin(): void {
       console.log('doLogin');

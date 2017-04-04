@@ -21,16 +21,13 @@ export class TabsPage {
   tab2Title = " ";
   tab3Title = " ";
   tab4Title = " ";
-  username: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translateService: TranslateService) {
+  constructor(public navCtrl: NavController, public translateService: TranslateService) {
     translateService.get(['TAB1_TITLE', 'TAB2_TITLE', 'TAB3_TITLE', 'TAB4_TITLE']).subscribe(values => {
       this.tab1Title = values['TAB1_TITLE'];
       this.tab2Title = values['TAB2_TITLE'];
       this.tab3Title = values['TAB3_TITLE'];
       this.tab4Title = values['TAB4_TITLE'];
     });
-    this.username=this.navParams.get('username');
-    console.log('TabsPage '+this.username);
   }
 }
