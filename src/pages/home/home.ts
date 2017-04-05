@@ -5,11 +5,14 @@ import { EventListPage } from '../event-list/event-list';
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { ItemCreatePage } from '../item-create/item-create';
 //import { UserCreatePage } from '../signup/signup';
+import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import { EventChildData } from '../../providers/event-child-data';
+import { ProfileData } from '../../providers/profile-data';
+import { AuthData } from '../../providers/auth-data';
+import firebase from 'firebase';
 
 import { Items } from '../../providers/providers';
 import { Item } from '../../models/item';
-
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
 
 @Component({
   selector: 'page-home',
@@ -19,13 +22,34 @@ export class HomePage {
   currentItems: Item[];
   currentUsers: FirebaseListObservable<any>;
   currentChildren: FirebaseListObservable<any>;
+  userList: firebase.database.Reference;
+  userProfile: any;
   username: any;
 
-  constructor(public navCtrl: NavController, public items: Items, public navParams: NavParams, public modalCtrl: ModalController, af: AngularFire) {
+  constructor(public navCtrl: NavController, public items: Items, public navParams: NavParams, public modalCtrl: ModalController,
+      public eventChildData: EventChildData, public profileData: ProfileData, af: AngularFire) {
     this.currentItems = this.items.query();
     this.currentChildren = af.database.list('/children');
     this.currentUsers = af.database.list('/users');
     this.username=this.navParams.get('username');
+
+    this.profileData.getUserProfile().on('value', (data) => {
+      this.userProfile = data.val();
+      console.log('PROFILE '+JSON.stringify(this.userProfile));
+      console.log(this.userProfile.email);
+      this.userList = firebase.database().ref(`users`);
+      this.userList.orderByChild("email").equalTo(this.userProfile.email).on("child_added", function(data) {
+        console.log('Seteo username a '+data.val().username);
+        this.username=data.val().username;
+
+        console.log('username '+this.username);
+        this.currentChildren.orderByChild("username").equalTo(this.username).on("child_added", function(data) {
+           console.log('Seteo username a '+data.val().username);
+          this.username=data.val().username;
+         });
+      });
+      //this.username=this.navParams.get('username');
+    });
   }
 
   /**
