@@ -11,7 +11,6 @@ import { Camera } from 'ionic-native';
 
 /*
   Generated class for the ItemCreate page.
-
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
@@ -47,7 +46,8 @@ export class ItemCreatePage {
 
 
 
-    //this.username=this.navParams.get('username');
+    this.username=this.navParams.get('username');
+    console.log('username '+this.username);
 
     // Watch the form for changes, and
     this.form.valueChanges.subscribe((v) => {
@@ -61,7 +61,7 @@ export class ItemCreatePage {
 
   ionViewDidLoad() {
 
-    this.profileData.getUserProfile().on('value', (data) => {
+    /*this.profileData.getUserProfile().on('value', (data) => {
       this.userProfile = data.val();
       console.log('PROFILE '+JSON.stringify(this.userProfile));
       console.log(this.userProfile.email);
@@ -72,7 +72,7 @@ export class ItemCreatePage {
       });
       //this.username=this.navParams.get('username');
       console.log('username '+this.username);
-    });
+    });*/
 
   }
 
@@ -124,6 +124,7 @@ export class ItemCreatePage {
     if(!this.form.valid) { 
       return; 
     }else{
+      this.item.username = this.username;
       console.log(JSON.stringify(this.item));
       var refKey=this.currentChildren.push(this.item).key;
       this.eventChildData.createChildEvent(this.username, refKey);
