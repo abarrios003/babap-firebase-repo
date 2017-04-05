@@ -45,16 +45,7 @@ export class ItemCreatePage {
       birthday: ['', Validators.required]
     });
 
-    this.profileData.getUserProfile().on('value', (data) => {
-      this.userProfile = data.val();
-      console.log('PROFILE '+JSON.stringify(this.userProfile));
-      this.userList = firebase.database().ref(`users`);
-      this.userList.orderByChild("email").equalTo(this.userProfile.email).on("child_added", function(data) {
-        this.username=data.val();
-      });
-      //this.username=this.navParams.get('username');
-      console.log('username '+this.username);
-    });
+
 
     //this.username=this.navParams.get('username');
 
@@ -69,6 +60,19 @@ export class ItemCreatePage {
   }
 
   ionViewDidLoad() {
+
+    this.profileData.getUserProfile().on('value', (data) => {
+      this.userProfile = data.val();
+      console.log('PROFILE '+JSON.stringify(this.userProfile));
+      console.log(this.userProfile.email);
+      this.userList = firebase.database().ref(`users`);
+      this.userList.orderByChild("email").equalTo(this.userProfile.email).on("child_added", function(data) {
+        console.log('Seteo username a '+data.val().username);
+        this.username=data.val().username;
+      });
+      //this.username=this.navParams.get('username');
+      console.log('username '+this.username);
+    });
 
   }
 
