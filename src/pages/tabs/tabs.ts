@@ -21,6 +21,8 @@ export class TabsPage {
   tab2Title = " ";
   tab3Title = " ";
   tab4Title = " ";
+  
+  email: any;
 
   constructor(public navCtrl: NavController, public translateService: TranslateService) {
     translateService.get(['TAB1_TITLE', 'TAB2_TITLE', 'TAB3_TITLE', 'TAB4_TITLE']).subscribe(values => {
@@ -29,5 +31,8 @@ export class TabsPage {
       this.tab3Title = values['TAB3_TITLE'];
       this.tab4Title = values['TAB4_TITLE'];
     });
+    
+    this.email=this.navParams.get('email');
+    console.log('TABS PAGE '+this.email);
   }
 }
