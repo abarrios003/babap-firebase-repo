@@ -51,7 +51,7 @@ export class LoginPage {
       console.log('doLogin');
       this.authData.loginUser(this.account.email, this.account.password).then( authData => {
         this.loading.dismiss().then( () => {
-          this.navCtrl.setRoot(MainPage);
+          this.navCtrl.setRoot(MainPage, {email: this.account.email});
         });
       }, error => {
         this.loading.dismiss().then( () => {
