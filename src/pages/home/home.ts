@@ -24,31 +24,47 @@ export class HomePage {
   currentChildren: FirebaseListObservable<any>;
   userList: firebase.database.Reference;
   userProfile: any;
+  email:any;
   username: any;
 
   constructor(public navCtrl: NavController, public items: Items, public navParams: NavParams, public modalCtrl: ModalController,
       public eventChildData: EventChildData, public profileData: ProfileData, af: AngularFire) {
     this.currentItems = this.items.query();
-    this.currentChildren = af.database.list('/children');
-    this.currentUsers = af.database.list('/users');
-    this.username=this.navParams.get('username');
+    //this.currentChildren = af.database.list('/children');
+    //this.currentUsers = af.database.list('/users');
+    //this.username=this.navParams.get('username');
 
-    this.profileData.getUserProfile().on('value', (data) => {
+    /*this.profileData.getUserProfile().on('value', (data) => {
       this.userProfile = data.val();
-      console.log('PROFILE '+JSON.stringify(this.userProfile));
-      console.log(this.userProfile.email);
-      this.userList = firebase.database().ref(`users`);
-      this.userList.orderByChild("email").equalTo(this.userProfile.email).on("child_added", function(data) {
-        console.log('Seteo username a '+data.val().username);
+      //console.log('PROFILE '+JSON.stringify(this.userProfile));
+      this.email=this.userProfile.email;
+      console.log(this.email);
+      //this.userList = firebase.database().ref(`users`);
+      this.currentUsers = af.database.list('/users', { preserveSnapshot: true });
+	  this.currentUsers
+		  .subscribe(snapshots => {
+		    snapshots.forEach(snapshot => {
+		      console.log(snapshot.key)
+		      console.log(snapshot.val())
+		    });
+		})
+
+      this.userList.orderByChild("email").equalTo(this.email).on("child_added", function(data) {
+        //console.log('Seteo username a '+data.val().username);
         this.username=data.val().username;
 
         console.log('username '+this.username);
         this.currentChildren.orderByChild("username").equalTo(this.username).on("child_added", function(data) {
-           console.log('Seteo username a '+data.val().username);
-          this.username=data.val().username;
+           console.log('Seteo username a '+this.username);
+          this.username=this.username;
          });
       });
       //this.username=this.navParams.get('username');
+    });*/
+    this.username='babap';
+    this.currentChildren = af.database.list('/children',{query:{
+      orderByChild: 'username',
+      equalTo: this.username}
     });
   }
 
