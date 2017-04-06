@@ -104,6 +104,9 @@ export class HomePage {
         console.log(error);
       }); 
   }
+
+  static fromJson({$key, name,number}){
+    return new Item($key, name,number)}
   /**
    * Delete an item from the list of items.
    */
