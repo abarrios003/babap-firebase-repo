@@ -7,7 +7,7 @@ import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
 import firebase from 'firebase';
 
-import { Camera } from 'ionic-native';
+import { Camera } from '@ionic-native/camera';
 
 /*
   Generated class for the ItemCreate page.
@@ -36,7 +36,7 @@ export class ItemCreatePage {
     };
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public navParams: NavParams, public eventChildData: EventChildData,
-    public profileData: ProfileData, public authData: AuthData, formBuilder: FormBuilder, public af: AngularFire) {
+    public profileData: ProfileData, public authData: AuthData, public cameraPlugin: Camera, formBuilder: FormBuilder, public af: AngularFire) {
     this.form = formBuilder.group({
       profilePic: [''],
       name: ['', Validators.required],
@@ -75,8 +75,27 @@ export class ItemCreatePage {
     });*/
 
   }
+   
+   getPicture(){
+    this.cameraPlugin.getPicture({
+      quality : 95,
+      destinationType : this.cameraPlugin.DestinationType.DATA_URL,
+      sourceType : this.cameraPlugin.PictureSourceType.CAMERA,
+      allowEdit : true,
+      encodingType: this.cameraPlugin.EncodingType.PNG,
+      targetWidth: 120,
+      targetHeight: 120,
+      saveToPhotoAlbum: true
+    }).then(imageData => {
+      //this.guestPicture = imageData;
+      this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' +  imageData });
+    }, error => {
+      console.log("ERROR -> " + JSON.stringify(error));
+      this.fileInput.nativeElement.click();
+    });
+  }
 
-  getPicture() {
+  /*getPicture() {
     if (Camera['installed']()) {
       Camera.getPicture({
         targetWidth: 96,
@@ -89,7 +108,7 @@ export class ItemCreatePage {
     } else {
       this.fileInput.nativeElement.click();
     }
-  }
+  }*/
 
   processWebImage(event) {
     let input = this.fileInput.nativeElement;
