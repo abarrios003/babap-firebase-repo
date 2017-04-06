@@ -1,4 +1,4 @@
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, App } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
@@ -16,7 +16,7 @@ export class ProfilePage {
   public birthDate: string;
 
   constructor(public navCtrl: NavController, public profileData: ProfileData,
-    public authData: AuthData, public alertCtrl: AlertController) {
+    public authData: AuthData, public alertCtrl: AlertController, public appCtrl: App) {
   }
 
   ionViewDidEnter(){
@@ -51,7 +51,7 @@ export class ProfilePage {
       console.log(error);
     });*/
     this.authData.logoutUser().then(() => {
-      this.app.getRootNav().setRoot(WelcomePage, {}, {
+      this.appCtrl.getRootNav().setRoot(WelcomePage, {}, {
       animate: true,
       direction: 'forward'
     });
