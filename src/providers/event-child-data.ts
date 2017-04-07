@@ -28,8 +28,8 @@ export class EventChildData {
   }*/
 
   createChildEvent(username: string, key: string): void {
-    console.log('createChildEvent');
-    var childKey = this.eventChildList.push({name: username}).key;
+    console.log('createChildEvent '+username+'/'+key);
+    //var childKey = this.eventChildList.push({name: username}).key;
     this.eventBabapList.orderByChild("name").equalTo(username).on("child_added", function(snapshot) {
        this.eventBabapList.child(snapshot.key).child('childList').push({
         childUid: key
