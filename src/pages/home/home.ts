@@ -4,7 +4,7 @@ import { EventCreatePage } from '../event-create/event-create';
 import { EventListPage } from '../event-list/event-list';
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { ItemCreatePage } from '../item-create/item-create';
-//import { UserCreatePage } from '../signup/signup';
+import { ProfilePage } from '../profile/profile';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
 import { EventChildData } from '../../providers/event-child-data';
 import { ProfileData } from '../../providers/profile-data';
@@ -123,6 +123,7 @@ export class HomePage {
     });
   }
 
+  goToProfile(){ this.navCtrl.push(ProfilePage); }
   //goToCreate(){ this.navCtrl.push(EventCreatePage); }
 
   //goToList(){ this.navCtrl.push(EventListPage); }
