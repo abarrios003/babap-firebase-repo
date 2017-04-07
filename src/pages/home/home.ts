@@ -5,7 +5,7 @@ import { EventListPage } from '../event-list/event-list';
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { ItemCreatePage } from '../item-create/item-create';
 //import { UserCreatePage } from '../signup/signup';
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import { EventChildData } from '../../providers/event-child-data';
 import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
@@ -21,6 +21,7 @@ import { Item } from '../../models/item';
 export class HomePage {
   currentItems: Item[];
   currentUsers: FirebaseListObservable<any>;
+  //currentChildren: firebase.database.Reference;
   currentChildren: FirebaseListObservable<any>;
   userList: firebase.database.Reference;
   userProfile: any;
@@ -30,7 +31,10 @@ export class HomePage {
   constructor(public navCtrl: NavController, public items: Items, public navParams: NavParams, public modalCtrl: ModalController,
       public eventChildData: EventChildData, public profileData: ProfileData, af: AngularFire) {
     this.currentItems = this.items.query();
+    //this.email=this.navParams.get('email');
+    //console.log('HOME '+this.email);
     //this.currentChildren = af.database.list('/children');
+    this.currentChildren = firebase.database().ref('/children');
     //this.currentUsers = af.database.list('/users');
     //this.username=this.navParams.get('username');
 
@@ -62,10 +66,13 @@ export class HomePage {
       //this.username=this.navParams.get('username');
     });*/
     this.username='babap';
-    this.currentChildren = af.database.list('/children',{query:{
+    this.currentChildren.orderByChild("username").equalTo(this.username).on("child_added", function(data) {
+	   console.log("Equal to filter: " + data.val().name);
+	});
+    /*this.currentChildren = af.database.list('/children',{query:{
       orderByChild: 'username',
       equalTo: this.username}
-    });
+    });*/
   }
 
   /**
@@ -104,9 +111,6 @@ export class HomePage {
         console.log(error);
       }); 
   }
-
-  static fromJson({$key, name,number}){
-    return new Item($key, name,number)}
   /**
    * Delete an item from the list of items.
    */

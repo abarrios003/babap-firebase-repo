@@ -51,14 +51,14 @@ export class ProfilePage {
       console.log(error);
     });*/
     this.authData.logoutUser().then(() => {
+      /*this.nav.getRootNav().setRoot(WelcomePage, {}, {
+      animate: true,
+      direction: 'forward'
+    });*/
       this.appCtrl.getRootNav().setRoot(WelcomePage, {}, {
       animate: true,
       direction: 'forward'
     });
-      /*this.navCtrl.setRoot(WelcomePage, {}, {
-      animate: true,
-      direction: 'forward'
-    });*/
     });
   }
 
