@@ -4,6 +4,7 @@ import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
 import { LoginPage } from '../login/login';
 import { WelcomePage } from '../welcome/welcome';
+import { Camera } from '@ionic-native/camera';
 
 import firebase from 'firebase';
 
@@ -14,6 +15,8 @@ import firebase from 'firebase';
 export class ProfilePage {
   public userProfile: any;
   public birthDate: string;
+  public profileImg: string;
+  @ViewChild('fileInput') fileInput;
 
   constructor(public navCtrl: NavController, public profileData: ProfileData,
     public authData: AuthData, public alertCtrl: AlertController, public appCtrl: App) {
@@ -38,27 +41,54 @@ export class ProfilePage {
     });
 
   }
+  
+   getPicture(){
+    this.cameraPlugin.getPicture({
+      quality : 95,
+      destinationType : this.cameraPlugin.DestinationType.DATA_URL,
+      sourceType : this.cameraPlugin.PictureSourceType.CAMERA,
+      allowEdit : true,
+      encodingType: this.cameraPlugin.EncodingType.PNG,
+      targetWidth: 120,
+      targetHeight: 120,
+      saveToPhotoAlbum: true
+    }).then(imageData => {
+      //this.guestPicture = imageData;
+      this.profileImg = 'data:image/jpg;base64,' +  imageData;
+      this.profileData.updatePic(imageData);
+      //this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' +  imageData });
+    }, error => {
+      console.log("ERROR -> " + JSON.stringify(error));
+      this.fileInput.nativeElement.click();
+    });
+  }
+
+  processWebImage(event) {
+    let input = this.fileInput.nativeElement;
+
+    var reader = new FileReader();
+    reader.onload = (readerEvent) => {
+      input.parentNode.removeChild(input);
+
+      var imageData = (readerEvent.target as any).result;
+      this.profileImg = imageData;
+      this.profileData.updatePic(imageData);
+      //this.form.patchValue({ 'profilePic': imageData });
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  getProfileImageStyle() {
+    return 'url(' + this.profileImg + ')'
+  }
 
   logOut(){
-    /*firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-      console.log('Logout');
-      this.authData.logoutUser().then(() => {
-      this.navCtrl.setRoot(LoginPage);
-    });
-    }, function(error) {
-      // An error happened.
-      console.log(error);
-    });*/
     this.authData.logoutUser().then(() => {
       this.appCtrl.getRootNav().setRoot(WelcomePage, {}, {
       animate: true,
       direction: 'forward'
     });
-      /*this.navCtrl.setRoot(WelcomePage, {}, {
-      animate: true,
-      direction: 'forward'
-    });*/
     });
   }
 
