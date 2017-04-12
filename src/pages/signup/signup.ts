@@ -61,7 +61,7 @@ export class SignupPage {
   doSignup() {
     console.log(JSON.stringify(this.account));
 
-    this.authData.signupUser(this.account.email, this.account.password)
+    this.authData.signupUser(this.account.email, this.account.password, this.account.username)
       .then(() => {
         this.loading.dismiss().then( () => {
           this.currentUsers.push(this.account).then( item => {
@@ -98,7 +98,7 @@ export class SignupPage {
   doSignup2() {
     console.log(JSON.stringify(this.account));
 
-    this.authData.signupUser(this.account.email, this.account.password)
+    this.authData.signupUser(this.account.email, this.account.password, this.account.username)
       .then(() => {
         this.loading.dismiss().then( () => {
           this.currentUsers.push(this.account).then( item => {

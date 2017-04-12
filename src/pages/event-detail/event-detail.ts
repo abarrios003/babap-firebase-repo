@@ -22,7 +22,7 @@ export class EventDetailPage {
     });
   }
 
-  addGuest(guestName) {
+  /*addGuest(guestName) {
     this.eventData.addGuest(guestName, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
       this.guestName = '';
       this.guestPicture = null;
@@ -44,6 +44,6 @@ export class EventDetailPage {
     }, error => {
       console.log("ERROR -> " + JSON.stringify(error));
     });
-  }
+  }*/
 
 }

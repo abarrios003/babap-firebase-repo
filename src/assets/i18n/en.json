@@ -14,7 +14,7 @@
 
   "TAB1_TITLE": "Home",
   "TAB2_TITLE": "Task",
-  "TAB3_TITLE": "Search",
+  "TAB3_TITLE": "Market",
   "TAB4_TITLE": "Settings",
 
   "MAP_TITLE": "Map",
@@ -63,6 +63,8 @@
   "ITEM_ABOUT_PLACEHOLDER" : "About",
   "ITEM_GENDER_PLACEHOLDER" : "Gender",
   "ITEM_BIRTHDAY_PLACEHOLDER" : "Birthday",
+
+  "CHILD_CREATE_ADD" : "Add your first Baby",
 
   "DONE_BUTTON" : "Done",
   "CANCEL_BUTTON" : "Cancel",

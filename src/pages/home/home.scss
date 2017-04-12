@@ -1,5 +1,93 @@
 page-home {
-  button {
-    margin-bottom: 32px;
+
+	.avatar{
+	   margin: auto;
+	}
+
+	.profilepicsize  {
+	    width: 100% !important;  
+	    height : 100% !important;  
+	    max-width: 250px !important;  //any size
+	    max-height: 250px !important; //any size 
+	}
+
+  .child-image-wrapper {
+    text-align: center;
+
+    width: 296px;
+    height: 296px;
+    padding: 20px;
+
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+
+	  margin: -50px 0 0 -150px;
+
+    .child-image {
+      /*width: 196px;
+      height: 196px;
+      border-radius: 50%;
+
+      display: inline-block;
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;*/
+      width: 296px;
+      height: 296px;
+      border-radius: 50%;
+
+      font-size: 12px;
+
+      ion-fab {
+        font-size: 44px;
+		width: 100% !important;  
+	    height : 100% !important;  
+	    max-width: 250px !important;  //any size
+	    max-height: 250px !important; //any size 
+      }
+    }
+
+    .child-image-placeholder {
+      display: inline-block;
+
+      background-color: #eee;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+
+      font-size: 12px;
+
+      ion-icon {
+        font-size: 44px;
+        margin-bottom: -10px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .fab-icon-wrapper {
+	width: 100% !important;  
+    height : 100% !important;  
+    max-width: 350px !important;  //any size
+    max-height: 350px !important; //any size 
+    position: absolute;
+    top: 50%;
+	left: 50%;
+    margin: -180px 0 0 -190px;
+    .fab{
+    	width: 96px !important;  
+    	height :96px !important;  
+    }
+    .pic{
+    	width: 82px !important;  
+    	height :82px !important;  
+    }
+    ion-icon {
+        font-size: 44px;
+        margin-bottom: -10px;
+        margin-top: 10px;
+      }
   }
 }

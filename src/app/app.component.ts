@@ -30,7 +30,7 @@ import { TranslateService } from 'ng2-translate/ng2-translate';
 import firebase from 'firebase';
 
 @Component({
-  template: `<ion-menu [content]="content">
+  template: `<!--<ion-menu [content]="content">
     <ion-header>
       <ion-toolbar>
         <ion-title>Pages</ion-title>
@@ -45,7 +45,7 @@ import firebase from 'firebase';
       </ion-list>
     </ion-content>
 
-  </ion-menu>
+  </ion-menu>-->
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {

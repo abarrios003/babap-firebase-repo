@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-row padding>
+  <!--<ion-row padding>
     <ion-col width-80>
       Current Revenue
     </ion-col>
@@ -13,18 +13,18 @@
       [class.no-profit]="currentEvent?.revenue < 0">
       {{currentEvent?.revenue}}
     </ion-col>
-  </ion-row>
+  </ion-row>-->
   <ion-card>
     <ion-card-header>
       {{currentEvent?.name}}
     </ion-card-header>
     <ion-card-content>
-      <p>Ticket: <strong>${{currentEvent?.price}}</strong></p>
-      <p>Date: <strong>{{currentEvent?.date}}</strong></p>
+      <p><strong>{{currentEvent?.description}}</strong></p>
+      <p>Deadline: <strong>{{currentEvent?.date}}</strong></p>
     </ion-card-content>
   </ion-card>
 
-  <ion-card class="add-guest-form">
+  <!--<ion-card class="add-guest-form">
     <ion-card-header>
       Add Guests
     </ion-card-header>
@@ -46,6 +46,6 @@
         </button>
       </ion-list>
     </ion-card-content>
-  </ion-card>
+  </ion-card>-->
 
 </ion-content>

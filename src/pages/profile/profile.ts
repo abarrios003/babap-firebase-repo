@@ -1,9 +1,10 @@
-import { NavController, AlertController, App } from 'ionic-angular';
-import { Component } from '@angular/core';
+import { NavController, AlertController, ActionSheetController, App } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
 import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
 import { LoginPage } from '../login/login';
 import { WelcomePage } from '../welcome/welcome';
+import { Camera } from '@ionic-native/camera';
 
 import firebase from 'firebase';
 
@@ -14,15 +15,16 @@ import firebase from 'firebase';
 export class ProfilePage {
   public userProfile: any;
   public birthDate: string;
+  public profileImg: string;
+  @ViewChild('fileInput') fileInput;
 
-  constructor(public navCtrl: NavController, public profileData: ProfileData,
-    public authData: AuthData, public alertCtrl: AlertController, public appCtrl: App) {
+  constructor(public navCtrl: NavController, public profileData: ProfileData, public actionSheetCtrl: ActionSheetController,
+    public authData: AuthData, public alertCtrl: AlertController, public cameraPlugin: Camera, public appCtrl: App) {
   }
 
   ionViewDidEnter(){
     /*var user = firebase.auth().currentUser;
     var name, email, photoUrl, uid;
-
     if (user != null) {
       name = user.displayName;
       email = user.email;
@@ -34,27 +36,79 @@ export class ProfilePage {
       this.profileData.getUserProfile().on('value', (data) => {
       this.userProfile = data.val();
       this.birthDate = this.userProfile.birthDate;
-      console.log(this.userProfile);
+      this.profileImg = this.userProfile.profilePic;
     });
 
   }
 
-  logOut(){
-    /*firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-      console.log('Logout');
-      this.authData.logoutUser().then(() => {
-      this.navCtrl.setRoot(LoginPage);
+  public presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Load from Library',
+          handler: () => {
+            this.fileInput.nativeElement.click();
+          }
+        },
+        {
+          text: 'Use Camera',
+          handler: () => {
+            this.getPicture();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
     });
-    }, function(error) {
-      // An error happened.
-      console.log(error);
-    });*/
+    actionSheet.present();
+  }
+  
+   getPicture(){
+    this.cameraPlugin.getPicture({
+      quality : 95,
+      destinationType : this.cameraPlugin.DestinationType.DATA_URL,
+      sourceType : this.cameraPlugin.PictureSourceType.CAMERA,
+      allowEdit : true,
+      encodingType: this.cameraPlugin.EncodingType.PNG,
+      targetWidth: 300,
+      targetHeight: 300,
+      saveToPhotoAlbum: true
+    }).then(imageData => {
+      //this.guestPicture = imageData;
+      this.profileImg = 'data:image/jpg;base64,' +  imageData;
+      this.profileData.updatePic(this.profileImg);
+      //this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' +  imageData });
+    }, error => {
+      console.log("ERROR -> " + JSON.stringify(error));
+      this.fileInput.nativeElement.click();
+    });
+  }
+
+  processWebImage(event) {
+    let input = this.fileInput.nativeElement;
+
+    var reader = new FileReader();
+    reader.onload = (readerEvent) => {
+      input.parentNode.removeChild(input);
+
+      var imageData = (readerEvent.target as any).result;
+      this.profileImg = imageData;
+      this.profileData.updatePic(imageData);
+      //this.form.patchValue({ 'profilePic': imageData });
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  getProfileImageStyle() {
+    return 'url(' + this.profileImg + ')'
+  }
+
+  logOut(){
     this.authData.logoutUser().then(() => {
-      /*this.nav.getRootNav().setRoot(WelcomePage, {}, {
-      animate: true,
-      direction: 'forward'
-    });*/
       this.appCtrl.getRootNav().setRoot(WelcomePage, {}, {
       animate: true,
       direction: 'forward'
@@ -94,6 +148,10 @@ export class ProfilePage {
 
   updateDOB(birthDate){
     this.profileData.updateDOB(birthDate);
+  }
+
+  updateUsername(username){
+    this.profileData.updateUsername(username);
   }
 
   updateEmail(){

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, ViewController ,NavParams} from 'ionic-angular';
+import { NavController, ViewController, ActionSheetController ,NavParams} from 'ionic-angular';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
 import { EventChildData } from '../../providers/event-child-data';
 import { ProfileData } from '../../providers/profile-data';
@@ -36,7 +36,7 @@ export class ItemCreatePage {
     };
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public navParams: NavParams, public eventChildData: EventChildData,
-    public profileData: ProfileData, public authData: AuthData, public cameraPlugin: Camera, formBuilder: FormBuilder, public af: AngularFire) {
+    public profileData: ProfileData, public authData: AuthData, public actionSheetCtrl: ActionSheetController, public cameraPlugin: Camera, formBuilder: FormBuilder, public af: AngularFire) {
     this.form = formBuilder.group({
       profilePic: [''],
       name: ['', Validators.required],
@@ -75,6 +75,31 @@ export class ItemCreatePage {
     });*/
 
   }
+
+  public presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Load from Library',
+          handler: () => {
+            this.fileInput.nativeElement.click();
+          }
+        },
+        {
+          text: 'Use Camera',
+          handler: () => {
+            this.getPicture();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
    
    getPicture(){
     this.cameraPlugin.getPicture({
@@ -83,8 +108,8 @@ export class ItemCreatePage {
       sourceType : this.cameraPlugin.PictureSourceType.CAMERA,
       allowEdit : true,
       encodingType: this.cameraPlugin.EncodingType.PNG,
-      targetWidth: 120,
-      targetHeight: 120,
+      targetWidth: 300,
+      targetHeight: 300,
       saveToPhotoAlbum: true
     }).then(imageData => {
       //this.guestPicture = imageData;

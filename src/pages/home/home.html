@@ -6,19 +6,52 @@
       <button ion-button icon-only (click)="addItem()">
         <ion-icon name="add"></ion-icon>
       </button>
+      <button ion-button icon-only (click)="goToProfile()">
+           <ion-icon name="person"></ion-icon>
+       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of currentChildren | async">
+<ion-list>
+  <div class="child-image-wrapper">
+    <div class="child-image-placeholder" *ngIf="!currentChildren">
+      <ion-icon name="add" (click)="addItem()"></ion-icon>
+      <div>
+        {{ 'CHILD_CREATE_ADD' | translate }}
+      </div>
+    </div>
+  </div>
+    <!--<div class="child-image" *ngIf="currentChildren">
+    <ion-item *ngFor="let item of currentChildren | async">
+      <ion-fab center middle>
+        <button ion-fab>
+          <ion-avatar class="avatar">
+            <img [src]="item.profilePic" class="profilepicsize"/>
+          </ion-avatar>
+        </button>
+        <ion-fab-list side="top">
+          <button ion-fab color="primary"><ion-icon name="calendar"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="bottom">
+          <button ion-fab color="secondary"><ion-icon name="cart"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="left">
+          <button ion-fab color="light"><ion-icon name="alarm"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="right">
+          <button ion-fab color="dark"><ion-icon name="medkit"></ion-icon></button>
+        </ion-fab-list>
+      </ion-fab>
+    </ion-item>-->
+      <!--<ion-item-sliding *ngFor="let item of currentChildren | async">
+
       <button ion-item (click)="openItem(item)">
-        <ion-avatar item-left>
-          <img [src]="item.profilePic" />
+        <ion-avatar class="avatar">
+          <img [src]="item.profilePic" class="profilepicsize"/>
         </ion-avatar>
-        <h2>{{item.name}}</h2>
       </button>
 
       <ion-item-options>
@@ -26,6 +59,29 @@
           {{ 'DELETE_BUTTON' | translate }}
         </button>
       </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+    </ion-item-sliding>-->
+    <!--</div>
+  </div>-->
+  <ion-item *ngFor="let item of currentChildren | async" class="fab-icon-wrapper">
+      <ion-fab center middle>
+        <button ion-fab>
+          <ion-avatar >
+            <img [src]="item.profilePic" class="pic"/>
+          </ion-avatar>
+        </button>
+        <ion-fab-list side="top">
+          <button ion-fab color="primary"><ion-icon name="calendar"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="bottom">
+          <button ion-fab color="secondary"><ion-icon name="cart"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="left">
+          <button ion-fab color="light"><ion-icon name="alarm"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="right">
+          <button ion-fab color="dark"><ion-icon name="medkit"></ion-icon></button>
+        </ion-fab-list>
+      </ion-fab>
+    </ion-item>
+</ion-list>
 </ion-content>

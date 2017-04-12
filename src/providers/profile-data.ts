@@ -32,6 +32,18 @@ export class ProfileData {
       birthDate: birthDate,
     });
   }
+  
+  updatePic(image: string): firebase.Promise<any> {
+    return this.userProfile.child(this.currentUser.uid).update({
+      profilePic: image,
+    });
+  }
+
+  updateUsername(username: string): firebase.Promise<any> {
+    return this.userProfile.child(this.currentUser.uid).update({
+      username: username,
+    });
+  }
 
   updateEmail(newEmail: string, password: string): firebase.Promise<any> {
     const credential =  firebase.auth.EmailAuthProvider

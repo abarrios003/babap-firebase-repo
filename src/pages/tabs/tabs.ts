@@ -31,8 +31,5 @@ export class TabsPage {
       this.tab3Title = values['TAB3_TITLE'];
       this.tab4Title = values['TAB4_TITLE'];
     });
-    
-    this.email=this.navParams.get('email');
-    console.log('TABS PAGE '+this.email);
   }
 }

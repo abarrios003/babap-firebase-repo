@@ -4,7 +4,7 @@ import { EventCreatePage } from '../event-create/event-create';
 import { EventListPage } from '../event-list/event-list';
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { ItemCreatePage } from '../item-create/item-create';
-//import { UserCreatePage } from '../signup/signup';
+import { ProfilePage } from '../profile/profile';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import { EventChildData } from '../../providers/event-child-data';
 import { ProfileData } from '../../providers/profile-data';
@@ -21,9 +21,9 @@ import { Item } from '../../models/item';
 export class HomePage {
   currentItems: Item[];
   currentUsers: FirebaseListObservable<any>;
-  //currentChildren: firebase.database.Reference;
   currentChildren: FirebaseListObservable<any>;
   userList: firebase.database.Reference;
+  currentChild: FirebaseObjectObservable<any>;
   userProfile: any;
   email:any;
   username: any;
@@ -31,48 +31,43 @@ export class HomePage {
   constructor(public navCtrl: NavController, public items: Items, public navParams: NavParams, public modalCtrl: ModalController,
       public eventChildData: EventChildData, public profileData: ProfileData, af: AngularFire) {
     this.currentItems = this.items.query();
-    //this.email=this.navParams.get('email');
-    //console.log('HOME '+this.email);
     //this.currentChildren = af.database.list('/children');
-    this.currentChildren = firebase.database().ref('/children');
     //this.currentUsers = af.database.list('/users');
     //this.username=this.navParams.get('username');
 
-    /*this.profileData.getUserProfile().on('value', (data) => {
+    this.profileData.getUserProfile().on('value', (data) => {
       this.userProfile = data.val();
       //console.log('PROFILE '+JSON.stringify(this.userProfile));
-      this.email=this.userProfile.email;
-      console.log(this.email);
+      //this.email=this.userProfile.email;
+      this.username=this.userProfile.username;
+      //console.log(this.email);
+      //console.log(this.username);
+      this.currentChildren = af.database.list('/children',{query:{
+	      orderByChild: 'username',
+	      equalTo: this.username,
+	  	  limitToFirst: 1}
+	    });
       //this.userList = firebase.database().ref(`users`);
-      this.currentUsers = af.database.list('/users', { preserveSnapshot: true });
+      /*this.currentUsers = af.database.list('/users', { preserveSnapshot: true });
 	  this.currentUsers
 		  .subscribe(snapshots => {
 		    snapshots.forEach(snapshot => {
 		      console.log(snapshot.key)
 		      console.log(snapshot.val())
 		    });
-		})
-
-      this.userList.orderByChild("email").equalTo(this.email).on("child_added", function(data) {
+		})*/
+      /*this.currentUsers.orderByChild("email").equalTo(this.email).on("child_added", function(data) {
         //console.log('Seteo username a '+data.val().username);
         this.username=data.val().username;
-
         console.log('username '+this.username);
         this.currentChildren.orderByChild("username").equalTo(this.username).on("child_added", function(data) {
            console.log('Seteo username a '+this.username);
           this.username=this.username;
          });
-      });
-      //this.username=this.navParams.get('username');
-    });*/
-    this.username='babap';
-    this.currentChildren.orderByChild("username").equalTo(this.username).on("child_added", function(data) {
-	   console.log("Equal to filter: " + data.val().name);
-	});
-    /*this.currentChildren = af.database.list('/children',{query:{
-      orderByChild: 'username',
-      equalTo: this.username}
-    });*/
+      });*/
+    });
+    //this.username='babap';
+ 	//this.currentChild = af.database.object('/children');
   }
 
   /**
@@ -80,6 +75,7 @@ export class HomePage {
    */
   ionViewDidLoad() {
   }
+
 
   /**
    * Prompt the user to add a new item. This shows our ItemCreatePage in a
@@ -111,6 +107,7 @@ export class HomePage {
         console.log(error);
       }); 
   }
+
   /**
    * Delete an item from the list of items.
    */
@@ -127,6 +124,7 @@ export class HomePage {
     });
   }
 
+  goToProfile(){ this.navCtrl.push(ProfilePage); }
   //goToCreate(){ this.navCtrl.push(EventCreatePage); }
 
   //goToList(){ this.navCtrl.push(EventListPage); }

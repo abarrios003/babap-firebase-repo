@@ -22,7 +22,6 @@ export class EventChildData {
   /*getEventList(): firebase.database.Reference {
     return this.eventList;
   }
-
   getEventDetail(eventId): firebase.database.Reference {
     return this.eventList.child(eventId);
   }*/
