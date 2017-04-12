@@ -40,7 +40,49 @@ export class ProfilePage {
     });
 
   }
+  
+   getPicture(){
+    this.cameraPlugin.getPicture({
+      quality : 95,
+      destinationType : this.cameraPlugin.DestinationType.DATA_URL,
+      sourceType : this.cameraPlugin.PictureSourceType.CAMERA,
+      allowEdit : true,
+      encodingType: this.cameraPlugin.EncodingType.PNG,
+      targetWidth: 120,
+      targetHeight: 120,
+      saveToPhotoAlbum: true
+    }).then(imageData => {
+      //this.guestPicture = imageData;
+      this.profileImg = 'data:image/jpg;base64,' +  imageData;
+      this.profileData.updatePic(imageData);
+      //this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' +  imageData });
+    }, error => {
+      console.log("ERROR -> " + JSON.stringify(error));
+      this.fileInput.nativeElement.click();
+    });
+  }
 
+  processWebImage(event) {
+    let input = this.fileInput.nativeElement;
+
+    var reader = new FileReader();
+    reader.onload = (readerEvent) => {
+      input.parentNode.removeChild(input);
+
+      var imageData = (readerEvent.target as any).result;
+      this.profileImg = imageData;
+      this.profileData.updatePic(imageData);
+      //this.form.patchValue({ 'profilePic': imageData });
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  getProfileImageStyle() {
+    return 'url(' + this.profileImg + ')'
+  }
+
+<<<<<<< HEAD
   public presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Select Image Source',
@@ -107,6 +149,8 @@ export class ProfilePage {
     return 'url(' + this.profileImg + ')'
   }
 
+=======
+>>>>>>> origin/master
   logOut(){
     this.authData.logoutUser().then(() => {
       this.appCtrl.getRootNav().setRoot(WelcomePage, {}, {

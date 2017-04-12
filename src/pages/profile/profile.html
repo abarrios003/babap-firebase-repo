@@ -16,7 +16,11 @@
     </ion-list-header>
     
     <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)"/>
+<<<<<<< HEAD
     <div class="profile-image-wrapper" (click)="presentActionSheet()">
+=======
+    <div class="profile-image-wrapper" (click)="getPicture()">
+>>>>>>> origin/master
       <div class="profile-image-placeholder" *ngIf="!userProfile?.profilePic">
         <ion-icon name="add"></ion-icon>
         <div>

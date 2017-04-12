@@ -5,7 +5,11 @@ import { EventListPage } from '../event-list/event-list';
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { ItemCreatePage } from '../item-create/item-create';
 import { ProfilePage } from '../profile/profile';
+<<<<<<< HEAD
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
+=======
+import {AngularFire, FirebaseListObservable} from 'angularfire2';
+>>>>>>> origin/master
 import { EventChildData } from '../../providers/event-child-data';
 import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';

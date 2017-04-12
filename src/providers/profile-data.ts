@@ -38,12 +38,15 @@ export class ProfileData {
       profilePic: image,
     });
   }
+<<<<<<< HEAD
 
   updateUsername(username: string): firebase.Promise<any> {
     return this.userProfile.child(this.currentUser.uid).update({
       username: username,
     });
   }
+=======
+>>>>>>> origin/master
 
   updateEmail(newEmail: string, password: string): firebase.Promise<any> {
     const credential =  firebase.auth.EmailAuthProvider
